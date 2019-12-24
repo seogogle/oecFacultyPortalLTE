@@ -1,0 +1,49 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Add New Commission Rule</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="javascript:void(0)" routerLink='/dashboard'><i class="fa fa-dashboard"></i>
+              Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)" routerLink='/rules'>Rules</a></li>
+          <li class="breadcrumb-item active">Add New Commission Rules</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="card card-info card-outline">
+      <div class="card-header">
+        <h3 class="card-title">Add Rule</h3>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Deal Type</label>
+              <select (change)="changeEditor($event.target.value)" class="form-control select2">
+                <option selected value="cash">Cash/Wholesale</option>
+                <option value="finance">In-House Finance</option>
+                <option value="outsude-finance">Outside Finance</option>
+              </select>
+            </div>
+
+            <app-cash-deal-editor *ngIf="showCashEditor"></app-cash-deal-editor>
+            <app-finance-deal-editor *ngIf="showFinanceEditor"></app-finance-deal-editor>
+            <app-outside-finance-deal-editor *ngIf="showOutsidefinanceEditor"></app-outside-finance-deal-editor>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

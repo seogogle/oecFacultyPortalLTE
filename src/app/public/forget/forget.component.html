@@ -1,0 +1,41 @@
+<div class="login-box">
+  <div class="login-logo">
+    <a href="javascript:void(0)"><b>Commission</b>Portal</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Forget your password</p>
+
+      <form [formGroup]="forgetForm" (ngSubmit)="onSubmit()">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Enter Your Email Address" required formControlName="loginkey"
+            [ngClass]="{'is-invalid': submitted && fc.loginkey.errors}">
+          <div class="input-group-append">
+            <span class="fa fa-envelope input-group-text"></span>
+          </div>
+          <div *ngIf="submitted && fc.loginkey.errors" class="invalid-feedback">
+            <div *ngIf="fc.loginkey.errors.required">
+              Email address is required
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <p class="mb-1">
+        <a href="#" routerLink="/login">sign in as a different user</a>
+      </p>
+
+    </div>
+  </div>
+</div>

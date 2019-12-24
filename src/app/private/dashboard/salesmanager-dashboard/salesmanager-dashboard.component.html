@@ -1,0 +1,154 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Welcome to {{title}} Dashboard
+        </h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>{{totalSalesCount}}<sup style="font-size: 20px">#</sup></h3>
+            <p>Total Sales</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
+          <a href="javascript:void(0)" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+       
+        <div class="col-lg-3">
+         
+          <!-- /.card -->
+
+          <div class="card">
+            <div class="card-header no-border">
+              <h3 class="card-title">SalesMan Of Month</h3>
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-striped table-valign-middle">
+                <thead>
+                  <tr>
+                    <th>Salesman</th>
+                    <th># of Sale</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let salemon of salesmanOfMonth">
+                    <td>{{salemon.username}}</td>
+                    <td>{{salemon.salesman_count}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        
+        <div class="col-lg-6">
+          <!-- /.card -->
+          <div class="card">
+            <div class="card-header no-border">
+              <h3 class="card-title">Sales</h3>
+            </div>
+            <div class="card-body p-0">
+              <table class="table table-striped table-valign-middle">
+                <thead>
+                <tr>
+                  <th>Type of Sale</th>
+                  <th># of Sale</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>
+                    Outside Finance
+                  </td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>
+                    Cash/Credit Unions
+                  </td>
+                  <td>{{totalDealsCountCash + totalDealsCountWholeSale}}</td>
+                </tr>
+                <tr>
+                  <td>
+                    In-House
+                  </td>
+                  <td>{{totalDealsCountInhouse}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+     
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col-md-6 -->
+      <div class="col-md-6">
+        <div class="card card-info card-outline">
+          <div class="card-header">
+            <h3 class="card-title">Sales Chart</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="chart-responsive">
+                  <canvas id="pieChart" height="220"></canvas>
+                </div>
+                <!-- ./chart-responsive -->
+              </div>
+              <!-- /.col -->
+              <div class="col-md-2">
+                <ul class="chart-legend clearfix">
+                  <li><i class="fa fa-circle-o text-jan"></i> Jan</li>
+                  <li><i class="fa fa-circle-o text-feb"></i> Feb</li>
+                  <li><i class="fa fa-circle-o text-mar"></i> March</li>
+                  <li><i class="fa fa-circle-o text-apr"></i> April</li>
+                  <li><i class="fa fa-circle-o text-may"></i> May</li>
+                  <li><i class="fa fa-circle-o text-jun"></i> June</li>
+                </ul>
+              </div>
+              <div class="col-md-2">
+                <ul class="chart-legend clearfix">
+                  <li><i class="fa fa-circle-o text-jul"></i> July</li>
+                  <li><i class="fa fa-circle-o text-aug"></i> Aug</li>
+                  <li><i class="fa fa-circle-o text-sep"></i> Sep</li>
+                  <li><i class="fa fa-circle-o text-oct"></i> Oct</li>
+                  <li><i class="fa fa-circle-o text-nov"></i> Nov</li>
+                  <li><i class="fa fa-circle-o text-dec"></i> Dec</li>
+                </ul>
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+  </div>
+</section>

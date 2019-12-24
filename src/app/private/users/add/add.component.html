@@ -1,0 +1,163 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Manage User</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="javascript:void(0)" routerLink='/dashboard'><i class="fa fa-dashboard"></i>
+              Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)" routerLink='/users'>Users</a></li>
+          <li class="breadcrumb-item active">Manage User</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+  <form [formGroup]="userForm" (ngSubmit)="onClickSubmit()">
+    <div class="container-fluid">
+      <div class="card card-info card-outline">
+        <div class="card-header">
+          <h3 class="card-title">Manage User</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" name="first_name" formControlName="first_name" class="form-control" id="first_name"
+                  placeholder="Enter first name" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }">
+                <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
+                  <div *ngIf="f.first_name.errors.required">
+                    First name is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" name="last_name" formControlName="last_name" class="form-control" id="last_name"
+                  placeholder="Enter last name" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }">
+                <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+                  <div *ngIf="f.last_name.errors.required">
+                    Last name is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" (blur)="isEmailExists()" (keyup)="isEmailExists()" formControlName="email"
+                  class="form-control" id="email" placeholder="Enter email" [ngClass]="{ 'is-invalid': submitted && f.email.errors || isExistsMessage }">
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                  <div *ngIf="f.email.errors.required">Email is required</div>
+                  <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                </div>
+                <div *ngIf="isExistsMessage" style="font-size: 80%;color: #dc3545;">
+                  Email address used by another user
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Phone</label>
+                <input type="text" name="phone" formControlName="phone" class="form-control" id="phone" placeholder="Enter phone"
+                  [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+                <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                  <div *ngIf="f.phone.errors.required">
+                    Phone number is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" formControlName="username" class="form-control" id="username"
+                  placeholder="Enter username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                  <div *ngIf="f.username.errors.required">
+                    Username is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" formControlName="password" class="form-control" id="password"
+                  placeholder="Enter password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">
+                    Password is required
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Role</label>
+                <select (change)="onChange($event.target.value)" class="form-control select2" formControlName="role_id"
+                  style="width: 100%;">
+                  <option selected="selected">Select role</option>
+                  <option *ngFor="let role of roles" [value]="role.id" [selected]="userForm.value.role_id==role.id">{{role.title}}</option>
+                </select>
+                <div *ngIf="submitted && f.role_id.errors" class="invalid-feedback">
+                  <div *ngIf="f.role_id.errors.required">
+                    Role is required
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" *ngIf="salesSelected">
+                <label>Sales Manager</label>
+                <select class="form-control select2" formControlName="parent_id" style="width: 100%;">
+                  <option value="0" selected="selected">Select Salesmanager</option>
+                  <option *ngFor="let salesmanager of salesmanagers" [value]="salesmanager.id" [selected]="userForm.value.parent_id==salesmanager.id">{{salesmanager.first_name}}
+                    {{salesmanager.last_name}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.parent_id.errors" class="invalid-feedback">
+                  <div *ngIf="f.parent_id.errors.required">
+                    Please Select Salesmanager
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="financeSelected">
+                <label>Finance Manager</label>
+                <select class="form-control select2" formControlName="parent_id" style="width: 100%;">
+                  <option value="0" selected="selected">Select Finance Manager</option>
+                  <option *ngFor="let financemanger of financemangers" [value]="financemanger.id" [selected]="userForm.value.parent_id==financemanger.id">
+                    {{financemanger.first_name}} {{financemanger.last_name}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.parent_id.errors" class="invalid-feedback">
+                  <div *ngIf="f.parent_id.errors.required">
+                    Please Select Salesmanager
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          <button type="submit" routerLink="/users" class="btn btn-default">Cancel</button>
+          <button type="submit" [attr.disabled]="buttonDisabled?'':null" class="btn btn-info pull-right">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

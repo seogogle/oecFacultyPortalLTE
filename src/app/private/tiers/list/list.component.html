@@ -1,0 +1,173 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <!-- <h1>Manage Tiers</h1> -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#tierModal">
+          Add New
+        </button>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/dashboard" href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active">Manage Tiers</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-info card-outline">
+        <div class="card-header">
+          <h3 class="card-title">Tiers List</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table id="tiersTable" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Sale Limit Minimum</th>
+                <th>Sale Limit Maximum</th>
+                <th>Department</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tier of tiers; let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ tier.title }}</td>
+                <td>{{ tier.sale_limit_min }}</td>
+                <td>{{ tier.sale_limit_max }}</td>
+                <td>{{ tier.department }}</td>
+                <td>
+                  <div class="tools">
+                    <a href="javascript:void(0)" (click)="onSelect(formData,tier)" data-toggle="modal" data-target="#tierModal"><i
+                        class="fa fa-edit" style="color:green;"></i></a>
+                    <a (click)="deleteEvent(tier.id)" href="javascript:void(0)"><i class="fa fa-trash-o" style="color:red;"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Sale Limit Minimum</th>
+                <th>Sale Limit Maximum</th>
+                <th>Department</th>
+                <th>Actions</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+
+
+<div class="modal fade" id="tierModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <form #formData="ngForm" (ngSubmit)="onSubmit(formData)">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{formTitle}}</h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body">
+          <input type="hidden" [(ngModel)]="formData.id" name="id" id="id" class="form-control">
+          <div class="box-body">
+
+            <div class="form-group">
+              <label class="control-label col-md-3">
+                Department :
+              </label>
+              <label class="col-md-8">
+                <div class="row">
+                  <select [value]='Sales' required #departmentControl="ngModel" [class.is-invalid]="departmentControl.invalid && departmentControl.touched"
+                    name="department" [(ngModel)]="formData.department" class="form-control select2" style="width: 100%;">
+                    <!-- <option *ngFor="let department of departments">{{department}}</option> -->
+                    <!-- <option value="0">Please Select Department</option> -->
+                    <option value="Sales">Sales Department</option>
+                    <option value="Finance">Finance Department</option>
+                  </select>
+                  <small class="text-danger" *ngIf="departmentControl.invalid && departmentControl.touched">
+                    Please select department first
+                  </small>
+                </div>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Title: </label>
+              <label class="col-md-8">
+                <div class="row">
+                  <input required #titleControl="ngModel" [(ngModel)]="formData.title" type="text" name="title" class="form-control"
+                    [class.is-invalid]="titleControl.invalid && titleControl.touched" placeholder="Title">
+                  <small class="text-danger" *ngIf="titleControl.invalid && titleControl.touched">
+                    Title is required
+                  </small>
+                </div>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Sale Limit :</label>
+              <label class="col-md-8">
+                <div class="row">
+                  <div class="col-md-6 input-icon">
+                    <input #saleMinControl="ngModel" [class.is-invalid]="saleMinControl.invalid && saleMinControl.touched"
+                      [(ngModel)]="formData.sale_limit_min" type="text" name="sale_limit_min" class="form-control"
+                      placeholder="Minimum limit" required>
+                    <small class="text-danger" *ngIf="saleMinControl.invalid && saleMinControl.touched">
+                      Min Sale limit required
+                    </small>
+                  </div>
+                  <div class="col-md-6 input-icon">
+                    <input #saleMaxControl="ngModel" [class.is-invalid]="saleMaxControl.invalid && saleMaxControl.touched"
+                      [(ngModel)]="formData.sale_limit_max" type="text" name="sale_limit_max" class="form-control"
+                      placeholder="Maximum limit" required>
+                    <small class="text-danger" *ngIf="saleMaxControl.invalid && saleMaxControl.touched">
+                      Max sale limit required
+                    </small>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <!-- <div class="form-group">
+                <label for="inputPassword3" class="col-sm-3 control-label">Sale Limit : </label>
+                <label class="col-md-8">
+                  <div>
+                    <input type="number" name="sale_limit" formControlName="sale_limit" class="form-control" placeholder="Sale Limit"
+                      [ngClass]="{ 'is-invalid': submitted && f.sale_limit.errors }">
+                    <div *ngIf="submitted && f.sale_limit.errors" class="invalid-feedback">
+                      <div *ngIf="f.sale_limit.errors.required">
+                        Sale limit is required
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </div> -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="resetForm(formData)" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" [disabled]="formData.invalid" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,145 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Profile</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/dashboard" href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active">User Profile</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+
+        <div class="card card-primary card-outline">
+          <div class="card-body box-profile">
+            <div class="text-center">
+              <img class="profile-user-img img-fluid img-circle" src="assets/dist/img/user4-128x128.jpg" alt="User profile picture">
+            </div>
+
+            <h3 class="profile-username text-center">{{userName+' '+lastName}}</h3>
+
+            <p class="text-muted text-center">{{userRole}}</p>
+
+          </div>
+        </div>
+
+        <!-- About Me Box -->
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">About Me</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <strong><i class="fa fa-book mr-1"></i> Education</strong>
+
+            <p class="text-muted">
+              B.S. in Computer Science from the University of Tennessee at Knoxville
+            </p>
+
+            <hr>
+
+            <strong><i class="fa fa-map-marker mr-1"></i> Location</strong>
+
+            <p class="text-muted">Malibu, California</p>
+
+            <hr>
+
+            <strong><i class="fa fa-pencil mr-1"></i> Skills</strong>
+
+            <p class="text-muted">
+              <span class="tag tag-danger">UI Design</span>
+              <span class="tag tag-success">Coding</span>
+              <span class="tag tag-info">Javascript</span>
+              <span class="tag tag-warning">PHP</span>
+              <span class="tag tag-primary">Node.js</span>
+            </p>
+            <hr>
+            <strong><i class="fa fa-file-text-o mr-1"></i> Notes</strong>
+            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="card card-primary card-outline">
+          <div class="card-header p-2">
+            <ul class="nav nav-pills">
+              <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Details</a></li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+
+              <div class="active tab-pane" id="settings">
+                <form class="form-horizontal" [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">First Name</label>
+                    <div class="col-sm-10">
+                      <input type="text" formControlName="first_name" class="form-control" id="inputName" placeholder="First Name">
+                      <div *ngIf="userForm.controls['first_name'].invalid && (userForm.controls['first_name'].dirty || userForm.controls['first_name'].touched || userForm.controls['first_name'].untouched)">
+                        <app-show-errors [control]="userForm.controls['first_name']"></app-show-errors>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Last Name</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" formControlName="last_name" class="form-control" id="inputEmail" placeholder="Last Name">
+                      <div *ngIf="userForm.controls['last_name'].invalid && (userForm.controls['last_name'].dirty || userForm.controls['last_name'].touched || userForm.controls['last_name'].untouched)">
+                        <app-show-errors [control]="userForm.controls['last_name']"></app-show-errors>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="email" formControlName="email" class="form-control" id="inputName" placeholder="Email">
+                      <div *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].dirty || userForm.controls['email'].touched || userForm.controls['email'].untouched)">
+                        <app-show-errors [control]="userForm.controls['email']"></app-show-errors>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label">Phone</label>
+                    <div class="col-sm-10">
+                      <input type="text" formControlName="phone" class="form-control" id="inputName" placeholder="Phone Number">
+                      <div *ngIf="userForm.controls['phone'].invalid && (userForm.controls['phone'].dirty || userForm.controls['phone'].touched || userForm.controls['phone'].untouched)">
+                        <app-show-errors [control]="userForm.controls['phone']"></app-show-errors>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="form-group">
+                    <label for="exampleInputFile" class="col-sm-2 control-label">Profile Picture</label>
+                    <div class="input-group col-sm-10">
+                      <div class="custom-file">
+                        <input type="file" name="profile_image" formControlName="profile_image" class="custom-file-input" id="exampleInputFile">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <span class="input-group-text" id="">Upload</span>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-info">Update</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+a.dropdown-item{
+    color:#000 !important;
+}
+
+a.dropdown-item:focus{
+    color: #fff !important;
+}
+
+.navbar ul.navbar-nav.ml-auto li.nav-item.active {
+    // border: 2px solid #343a40;
+    // border-radius: 50px;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    background-color: #00A1B9;
+    border: 2px solid #ffffff;
+}
+
+.navbar ul.navbar-nav.ml-auto li.nav-item.active a.nav-link {
+    text-align: center;
+    padding: 5px;
+}

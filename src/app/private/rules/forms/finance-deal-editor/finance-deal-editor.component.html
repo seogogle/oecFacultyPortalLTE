@@ -1,0 +1,86 @@
+<form [formGroup]="rulesForm" (ngSubmit)="onSubmit()">
+  <input type="hidden" formControlName="deal_type" name="deal_type">
+  <input type="hidden" formControlName="commission_unit" name="commission_unit">
+  <input type="hidden" formControlName="flat_commission_unit" name="flat_commission_unit">
+  <div class="form-group">
+    <label for="inputEmail3">Group :</label>
+    <select name="group" formControlName="group" (change)="groupChangeEvent($event.target.value)" class="form-control select2"
+      style="width: 100%;">
+      <option value="0" selected="selected">Please Select Group</option>
+      <option value="A">Group A - Runner</option>
+      <option value="B">Group B - Finance Manager</option>
+    </select>
+  </div>
+
+  <div class="form-group" *ngIf="showMonths">
+    <label for="inputEmail3">Finanace Time In Months :</label>
+    <select name="group" formControlName="months" (change)="monthChangeEvent($event.target.value)" class="form-control select2"
+      style="width: 100%;">
+      <option value="0" selected="selected">Please Select</option>
+      <option value="greater">If customer wants greater then we allowed months</option>
+      <option value="less">If customer wants less then we allowed months</option>
+      <option value="tradeIn">If Trade In</option>
+    </select>
+  </div>
+
+
+  <div class="form-group" *ngIf="showTier">
+    <label for="exampleInputEmail1">Tier :</label>
+    <select class="form-control select2" formControlName="tier_id" style="width: 100%;">
+      <option selected="selected">Select Tier</option>
+      <option *ngFor="let tier of tiers" [value]="tier.id" [selected]="rulesForm.value.tier_id==tier.id">{{tier.title}}
+        - {{tier.department}}</option>
+    </select>
+  </div>
+
+  <div class="form-group" *ngIf="showCommission">
+    <label for="exampleInputPassword1">Commission :</label>
+    <span> (Percent of Down Payment)</span>
+    <div class="input-icon input-icon-right">
+      <input type="text" name="commission" formControlName="commission" class="form-control" placeholder="00" [ngClass]="{ 'is-invalid': submitted && f.commission.errors }"
+        required>
+      <i>%</i>
+      <div *ngIf="submitted && f.commission.errors" class="invalid-feedback">
+        <div *ngIf="f.commission.errors.required">
+          Commission is required
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group" *ngIf="showTrade">
+    <label for="exampleInputPassword1">Trade In :</label>
+    <span> (Percent of Trade In)</span>
+    <div class="input-icon input-icon-right">
+      <input type="text" name="commission" formControlName="trade_in" class="form-control" placeholder="00" [ngClass]="{ 'is-invalid': submitted && f.trade_in.errors }"
+        required [attr.disabled]="tradeInDisabled?'':null">
+      <i>%</i>
+      <div *ngIf="submitted && f.trade_in.errors" class="invalid-feedback">
+        <div *ngIf="f.trade_in.errors.required">
+          Trade In is required
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group" *ngIf="showflatCommission">
+    <label for="exampleInputPassword1">Commission :</label>
+    <span> (Flat Amount for Finance Manager)</span>
+    <div class="input-icon">
+      <input type="text" name="flat_commission" formControlName="flat_commission" class="form-control" placeholder="0.00"
+        [ngClass]="{ 'is-invalid': submitted && f.flat_commission.errors }" required [attr.readonly]="commissinForFlatReadonly?'':null">
+      <i>$</i>
+      <div *ngIf="submitted && f.flat_commission.errors" class="invalid-feedback">
+        <div *ngIf="f.flat_commission.errors.required">
+          Commission is required
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="box-footer" *ngIf="showButton">
+    <button type="button" routerLink="/manage-rules/list" class="btn btn-default">Cancel</button>
+    <button type="submit" class="btn btn-info pull-right">Submit</button>
+  </div>
+</form>

@@ -1,0 +1,170 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Deal Information</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/dashboard" href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item"><a href="javascript:void(0)" routerLink="/deals">Deals</a></li>
+          <li class="breadcrumb-item active">Deal Information</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="callout callout-info">
+          <h5><i class="fa fa-info"></i> Note:</h5>
+          This page is sale Information page. if you have any query please add comments related to this deal.
+        </div>
+        <div class="invoice p-3 mb-3 card-info card-outline">
+          <div class="row">
+            <div class="col-12">
+              <h4>
+                <i class="fa fa-globe"></i> Deal Info.
+                <small class="float-right">Contract Date : {{contractDate}}</small>
+              </h4>
+            </div>
+          </div>
+          <div class="row invoice-info">
+            <div class="col-sm-3 invoice-col">
+              Customer Name
+              <address>
+                <strong>{{customerName}}</strong><br>
+
+              </address>
+              Lender Name
+              <address>
+                <strong>{{lenderName}}</strong>
+              </address>
+            </div>
+            <div class="col-sm-3 invoice-col">
+              Sales Location
+              <address>
+                <strong>{{salesLocation}}</strong><br>
+
+              </address>
+              Lender Description
+              <address>
+                <strong>{{lenderDesc}}</strong>
+              </address>
+            </div>
+            <div class="col-sm-3 invoice-col">
+              CB TotalDown
+              <address>
+                <strong>{{CBTotalDown}}</strong><br>
+
+              </address>
+              F&I Person Name
+              <address>
+                <strong>{{FIPersonName}}</strong>
+              </address>
+            </div>
+            <div class="col-sm-3 invoice-col">
+              <b>iDMS Deal ID:</b> {{idmsID}}<br>
+              <b>Inst ID:</b> {{instID}}<br>
+              <b>Acct ID:</b> {{acctID}}<br>
+              <b>Lender ID:</b> {{lenderID}}
+              <br>
+            </div>
+          </div>
+
+          <!-- Table row -->
+          <div class="row">
+            <div class="col-sm-12 table-responsive ">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Stock #</th>
+                    <th>Vin Number</th>
+                    <th>vAuto price</th>
+                    <th>Sales Price</th>
+                    <th>Deal Type</th>
+                    <th>Deal Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{stockNumber}}</td>
+                    <td>{{vinNumber}}</td>
+                    <td>$ {{vAutoPrice}}</td>
+                    <td>$ {{dealAmount}}</td>
+                    <td>{{dealTypeDesc}}</td>
+                    <td>{{dealStatusDesc}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- <div class="col-12"> -->
+            <!-- <p class="lead">Leave a comment:</p> -->
+            <!-- <div class="row"> -->
+            <div class="col-sm-6">
+              <p class="lead">Leave a comment:</p>
+              <form #commentForm="ngForm" (submit)="onSubmit(commentForm)" novalidate>
+                <input type="hidden" [(ngModel)]="deal_id" name="deal_id">
+                <input type="hidden" [(ngModel)]="salesman_id" name="salesman_id">
+                <!-- text input -->
+                <div class="form-group">
+                  <label>Title :</label>
+                  <input type="text" [(ngModel)]="comment_title" name="comment_title" class="form-control" placeholder="Enter title here...">
+                </div>
+
+                <!-- textarea -->
+                <div class="form-group">
+                  <label>Comment :</label>
+                  <textarea class="form-control" [(ngModel)]="comment_text" name="comment_text" rows="3" placeholder="Enter message here..."
+                    required></textarea>
+                </div>
+                <div class="card-footer">
+                  <button type="button" (click)="resetForm(commentForm)" class="btn btn-default">Cancel</button>
+                  <button type="submit" class="btn btn-info float-right">Submit</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="col-sm-6">
+              <p class="lead">Latest Comments :</p>
+              <div class="col-sm-12 comments-scroll">
+                <div class="comments-box" *ngFor="let comment of comments" [@divState]="state">
+                  <p><a href="javascript:void(0)">{{comment.comment_text}}</a></p>
+                  <span class="time">{{comment.comment_date}}</span>
+                </div>
+              </div>
+            </div>
+            <!-- </div> -->
+            <!-- </div> -->
+          </div>
+
+
+
+          <!-- /.row -->
+
+          <!-- this row will not appear when printing -->
+          <!-- <div class="row no-print">
+            <div class="col-12">
+              <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+              <button type="button" class="btn btn-success float-right"><i class="fa fa-credit-card"></i> Submit
+                Payment
+              </button>
+              <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                <i class="fa fa-download"></i> Generate PDF
+              </button>
+            </div>
+          </div> -->
+        </div>
+
+
+        <!-- /.invoice -->
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>

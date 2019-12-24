@@ -1,0 +1,33 @@
+<form [formGroup]="rulesForm" (ngSubmit)="onSubmit()">
+    <input type="hidden" formControlName="deal_type" name="deal_type">
+    <input type="hidden" formControlName="commission_unit" name="commission_unit">
+    
+    <div class="form-group">
+      <label for="exampleInputEmail1">Tier :</label>
+      <select class="form-control select2" formControlName="tier_id" style="width: 100%;">
+        <option selected="selected">Select Tier</option>
+        <option *ngFor="let tier of tiers" [value]="tier.id" [selected]="rulesForm.value.tier_id==tier.id">
+          {{tier.title}} - {{tier.department}}</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="exampleInputPassword1">Commission :</label>
+      <span> (Percent of Profite)</span>
+      <div class="input-icon input-icon-right">
+        <input type="text" name="commission" formControlName="commission" class="form-control" placeholder="00" [ngClass]="{ 'is-invalid': submitted && f.commission.errors }"
+          required>
+        <i>%</i>
+        <div *ngIf="submitted && f.commission.errors" class="invalid-feedback">
+          <div *ngIf="f.commission.errors.required">
+            Commission is required
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="box-footer">
+      <button type="button" routerLink="/manage-rules/list" class="btn btn-default">Cancel</button>
+      <button type="submit" class="btn btn-info pull-right">Submit</button>
+    </div>
+  </form>

@@ -1,0 +1,244 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#dealModal">
+          Add Deal
+        </button>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/dashboard" href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active">Deals Record</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-info card-outline">
+        <div class="card-header">
+          <form>
+            <div class="row">
+              <div class="col-sm-2">
+                <select (change)="changeFilter($event.target.value)" class="form-control" style="width: 100%;" tabindex="-1"
+                  aria-hidden="true">
+                  <option selected="selected">Apply Filter By :</option>
+                  <option [value]="dateFilterOption" *ngFor="let dateFilterOption of dateFilterOptions">{{dateFilterOption}}</option>
+                </select>
+              </div>
+
+              <div class="col-md-2" *ngIf="showYearly">
+                <select name="yearFilter" (change)="applyFilter()" id="yearFilter" class="form-control" style="width: 100%;"
+                  tabindex="-1">
+                  <option value="">Choose Year :</option>
+                  <option [value]="year" *ngFor="let year of years">{{year}}</option>
+                </select>
+              </div>
+
+              <div class="col-md-2" *ngIf="showMonthly">
+                <select (change)="applyFilter()" name="monthInMonthYear" id="monthInMonthYear" class="form-control"
+                  style="width: 100%;" tabindex="-1" aria-hidden="true">
+                  <option selected="selected" value="">Choose Month :</option>
+                  <option [value]="month.value" *ngFor="let month of months">{{month.name}}</option>
+                </select>
+              </div>
+
+              <div class="col-md-2" *ngIf="showMonthly">
+                <select (change)="applyFilter()" name="yearInMonthYear" id="yearInMonthYear" class="form-control" style="width: 100%;">
+                  <option selected value="">Choose Year :</option>
+                  <option [value]="year" *ngFor="let year of years">{{year}}</option>
+                </select>
+              </div>
+
+              <div class="col-md-3" *ngIf="showWeekly">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control float-right" id="dateRangePicker">
+                </div>
+              </div>
+
+              <div class="col-md-2" *ngIf="showDaily">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                  </div>
+
+                  <input type="text" name="bsDatepicker" [(ngModel)]="bsDatepicker" (ngModelChange)="applyFilter()" id="bsDatepicker"
+                    placeholder="0000/00/00" class="form-control" bsDatepicker [bsConfig]="bsConfig">
+                </div>
+              </div>
+
+              <div class="col-md-2" *ngIf="showCustom">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                  </div>
+                  <input type="text" name="minDate" [(ngModel)]="minDate" (ngModelChange)="applyFilter()" id="minDate"
+                    placeholder="0000/00/00" class="form-control" bsDatepicker [bsConfig]="bsConfig">
+                </div>
+              </div>
+              <span *ngIf="showCustom" style="padding-top:6px">To</span>
+              <div class="col-md-2" *ngIf="showCustom">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                  </div>
+                  <input type="text" name="maxDate" [(ngModel)]="maxDate" (ngModelChange)="applyFilter()" id="maxDate"
+                    placeholder="0000/00/00" class="form-control" bsDatepicker [bsConfig]="bsConfig">
+                </div>
+              </div>
+
+              <div *ngIf="userRoleId != 4" class="col-sm-2" style="width: 100%;" tabindex="-1">
+                <select (change)="applyFilter()" id="bySalesPerson" class="form-control">
+                  <option value="">By Sales Person :</option>
+                  <option *ngFor="let salesPerson of salesPersons">{{salesPerson.first_name}}</option>
+                </select>
+              </div>
+
+              <div class="col-sm-2" style="width: 100%;" tabindex="-1">
+                <select name="bySaleType" (change)="applyFilter()" id="bySaleType" class="form-control">
+                  <option value="">By Sale Type :</option>
+                  <option value="Finance Deal">In-House Finance</option>
+                  <option value="Outside Deal">Outside Finance</option>
+                  <option value="Cash Deal">Cash Deal</option>
+                  <option value="Wholesale Deal">WholeSale Deal</option>
+                </select>
+              </div>
+
+              <div class="col-sm-2" style="width: 100%;" tabindex="-1">
+                <input class="form-control" type="text" (keyup)="filterByStock($event.target.value)" id="byStock"
+                  placeholder="Stock #">
+              </div>
+              
+            </div>
+          </form>
+        </div>
+        <div class="card-body" id="table">
+          <table id="salesRecordTable" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Deal Id</th>
+                <th>Stock #</th>
+                <th>Contract Date</th>
+                <th>Customer Name</th>
+                <th>Customer State</th>
+                <th>Sales Person</th>
+                <th>Type Of Sale</th>
+                <th>Sale Price</th>
+                <th>Lender</th>
+                <th>LienHolder</th>
+                <th>Status</th>
+                <th>Commission</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let deal of deals; let i = index">
+                <td></td>
+                <td><a href="javascript:void(0)" [routerLink]="['/deals/getDeal']" [queryParams]="{dealID:deal.id}">{{ deal.deal_id}}</a></td>
+                <td>{{deal.Stock_Number}}</td>
+                <td>{{ deal.deal_date}}</td>
+                <td>{{ deal.customer_name}}</td>
+                <td>{{ deal.customer_state}}</td>
+                <td>{{ deal.sales_person }}</td>
+                <td>{{ deal.deal_type_desc}}</td>
+                <td>{{ deal.deal_amount}}</td>
+                <td>{{ deal.lander_name }}</td>
+                <td>{{ deal.ResLienHolder }}</td>
+                <td><span class="badge bg-info">{{ deal.deal_status_desc}}</span></td>
+                <td>
+                  <!-- <span id="{{'indexButton'+i}}">
+                    <a title="Generate Commission" href="javascript:void(0)" (click)="calculatCommission(i,deal.deal_id,deal.deal_type,deal.MR_Fee)">
+                      <i class="fa fa-plus" style="color:green;"></i></a>
+                  </span> -->
+                  <span id="{{'indexNumber'+i}}" style="margin-left:20px"></span>
+                </td>
+              </tr>
+            </tbody>
+            <!-- <tfoot>
+              <tr>
+                <td colspan="4"><span style="float:right;"><b>Total Sales: </b></span></td>
+                <td colspan="2"> <span style="float:right;"><b>{{totalSales}}</b></span> </td>
+                <td colspan="2"><span style="float:right;"><b>Total Commission Due: </b></span></td>
+                <td><span><b>340</b></span></td>
+              </tr>
+            </tfoot> -->
+          </table>
+          <table style="float:right">
+            <tr>
+              <td><span>Total Sales : </span></td>
+              <td> <span><b>{{totalSales}}</b></span> </td>
+              <td><span>Total Commission Due : </span></td>
+              <td><span><b>{{totalCummissionAmount}}</b></span></td>
+            </tr>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div *ngIf="userRoleId == 1" class="card-footer">
+          <div id="buttons"></div>
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+
+<div class="modal fade" id="dealModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <form #rulesForm="ngForm" (ngSubmit)="onSubmit(rulesForm)">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Deal</h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> -->
+        </div>
+        <div class="modal-body">
+
+          <div class="box-body">
+            <div class="form-group">
+              <div class="row">
+                <label class="control-label col-md-4">
+                  IDMS Deal Number :
+                </label>
+                <label class="col-md-8">
+                  <input required #dealIdControl="ngModel" [(ngModel)]="rulesForm.idms_id" type="text" (blur)="isExists(rulesForm)"
+                    (keyup)="isExists(rulesForm)" name="idms_id" class="form-control" placeholder="IDMS Deal Number"
+                    [class.is-invalid]="dealIdControl.invalid && dealIdControl.touched">
+                  <small class="text-danger" *ngIf="dealIdControl.invalid && dealIdControl.touched">
+                    IDMS Deal Number is required
+                  </small>
+                  <small *ngIf="isExistsMessage" class="text-danger">
+                    IDMS Deal Number Already Registered!
+                  </small>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="resetForm(rulesForm)" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" [disabled]="rulesForm.invalid" [attr.disabled]="buttonDisabled?'':null" class="btn btn-primary">Save
+            changes</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

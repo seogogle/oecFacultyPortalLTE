@@ -1,0 +1,151 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+
+import { ApiService } from "../../../service/api/api.service";
+import { ConstantService } from "../../../service/core/constant.service";
+import { HelperService } from "../../../service/core/helper.service";
+
+
+@Component({
+  selector: 'app-add',
+  templateUrl: './add.component.html',
+  styleUrls: ['./add.component.scss']
+})
+export class rulesAddComponent implements OnInit {
+  rulesForm: FormGroup;
+  rulesFormGroupB: FormGroup;
+  submitted = false;
+  submittedButtonB = false;
+
+  public param = [];
+  public tiers = [];
+  public rules: any;
+  public selectedRule: any;
+  public groupAformDisplay: string = "none";
+  public groupBformDisplay: string = "none";
+
+  constructor(
+    private fb: FormBuilder,
+    private apiSvc: ApiService,
+    private constantSvc: ConstantService,
+    private helperSvc: HelperService,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.initForm();
+    this.initForm2();
+    this.getTiersList();
+  }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.rulesForm.controls; }
+  get fc() { return this.rulesFormGroupB.controls; }
+
+  initForm() {
+    this.rulesForm = this.fb.group({
+      tier_id: ['1', Validators.required],
+      mr_fee_min: [''],
+      mr_fee_max: [''],
+      base_amount: [''],
+      commission_unit: [''],
+      commission: [''],
+      deal_type: ['C'],
+      group: ['A'],
+      trade_in: ['']
+    });
+  }
+
+  initForm2() {
+    this.rulesFormGroupB = this.fb.group({
+      group: ['B'],
+      tier_id: ['', Validators.required],
+      deal_type: ['C', Validators.required],
+      commission_unit: ['%'],
+      commission: ['', Validators.required],
+    });
+  }
+
+  getTiersList() {
+    this.param = [];
+    this.apiSvc.getService(this.constantSvc.APIConfig.TIERSLIST, this.param)
+      .subscribe((data: any) => {
+        this.tiers = data.tiers;
+      }, (error: any) => {
+
+      });
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.rulesForm.invalid) {
+      return;
+    }
+
+    this.apiSvc.postService(this.constantSvc.APIConfig.ADDRULE, this.rulesForm.value)
+      .subscribe((data: any) => {
+        if (data.message) {
+          this.router.navigate(['/rules/list']);
+          this.helperSvc.notifySuccess(data.message ? data.message : 'success');
+
+        } else if (data.error) {
+          this.helperSvc.notifyError(data.error ? data.error : 'Something went wrong please try again')
+        }
+      }, (error: any) => {
+        this.helperSvc.notifyError(error.error.message ? error.error.message : "Something went wrong please try again")
+      });
+
+  }
+
+  onSubmitGroupB() {
+    this.submittedButtonB = true;
+
+    if (this.rulesFormGroupB.invalid) {
+      return;
+    }
+    this.apiSvc.postService(this.constantSvc.APIConfig.ADDRULE, this.rulesFormGroupB.value)
+      .subscribe((data: any) => {
+        if (data.message) {
+          this.router.navigate(['/rules/list']);
+          this.helperSvc.notifySuccess(data.message ? data.message : 'success');
+        } else if (data.error) {
+          this.helperSvc.notifyError(data.error ? data.error : 'Something went wrong please try again')
+        }
+      }, (error: any) => {
+        this.helperSvc.notifyError(error.error.message ? error.error.message : "Something went wrong please try again")
+      });
+  }
+
+  changeEvent(typeValue: string) {
+    if (typeValue == 'HF') {
+      this.rulesForm.get("mr_fee_min").disable();
+      this.rulesForm.get("mr_fee_max").disable();
+      this.rulesForm.get("base_amount").disable();
+      this.rulesForm.get("trade_in").enable();
+    } else if (typeValue == 'C') {
+      this.rulesForm.get("mr_fee_min").enable();
+      this.rulesForm.get("mr_fee_max").enable();
+      this.rulesForm.get("base_amount").enable();
+      this.rulesForm.get("trade_in").disable();
+    }
+  }
+
+  formChange(value: string) {
+    if (value == 'A') {
+      this.groupAformDisplay = "block";
+      this.groupBformDisplay = "none";
+    } else if (value == 'B') {
+      this.groupAformDisplay = "none";
+      this.groupBformDisplay = "block";
+    } else {
+      this.groupAformDisplay = "none";
+      this.groupBformDisplay = "none";
+    }
+  }
+}

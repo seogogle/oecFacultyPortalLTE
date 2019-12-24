@@ -1,0 +1,157 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>General Settings</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a routerLink="/dashboard" href="javascript:void(0)">Home</a></li>
+          <li class="breadcrumb-item active">General Settings</li>
+        </ol>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+  <form [formGroup]="settingsForm" novalidate>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h3 class="card-title">Basic Settings</h3>
+            </div>
+
+            <div class="card-body">
+              <div class="form-group">
+                <label>Site Name</label>
+                <input type="text" name="site_name" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="site_name" class="form-control" placeholder="Site Name">
+                <small *ngIf="settingsForm.controls['site_name'].invalid && (settingsForm.controls['site_name'].dirty || settingsForm.controls['site_name'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['site_name']"></app-show-errors>
+                </small>
+              </div>
+              <div class="form-group">
+                <label>Site Email</label>
+                <input type="text" name="site_email" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="site_email" class="form-control" placeholder="Site Email">
+                <small *ngIf="settingsForm.controls['site_email'].invalid && (settingsForm.controls['site_email'].dirty || settingsForm.controls['site_email'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['site_email']"></app-show-errors>
+                </small>
+              </div>
+              <div class="form-group">
+                <label>Google API Key</label>
+                <input type="text" name="google_api_key" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="google_api_key" class="form-control" id="exampleInputEmail1" placeholder="Google API Key">
+                <small *ngIf="settingsForm.controls['google_api_key'].invalid && (settingsForm.controls['google_api_key'].dirty || settingsForm.controls['google_api_key'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['google_api_key']"></app-show-errors>
+                </small>
+              </div>
+            </div>
+
+          </div>
+          <div class="card card-success card-outline">
+            <div class="card-header">
+              <h3 class="card-title">IDMS Settings</h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="idms_username" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="idms_username" class="form-control" id="exampleInputEmail1" placeholder="Username">
+                <small *ngIf="settingsForm.controls['idms_username'].invalid && (settingsForm.controls['idms_username'].dirty || settingsForm.controls['idms_username'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['idms_username']"></app-show-errors>
+                </small>
+              </div>
+              <div class="form-group">
+                <label>Passwrod</label>
+                <input type="text" name="idms_password" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="idms_password" class="form-control" id="exampleInputEmail1" placeholder="Passwrod">
+                <small *ngIf="settingsForm.controls['idms_password'].invalid && (settingsForm.controls['idms_password'].dirty || settingsForm.controls['idms_password'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['idms_password']"></app-show-errors>
+                </small>
+              </div>
+              <div class="form-group">
+                <label>InstitutionID</label>
+                <input type="text" name="idms_institution_id" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="idms_institution_id" class="form-control" id="exampleInputEmail1" placeholder="InstitutionID">
+                <small *ngIf="settingsForm.controls['idms_institution_id'].invalid && (settingsForm.controls['idms_institution_id'].dirty || settingsForm.controls['idms_institution_id'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['idms_institution_id']"></app-show-errors>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card card-info card-outline">
+            <div class="card-header">
+              <h3 class="card-title">Email Settings</h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Email Protocol</label>
+                <select name="email_protocol" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="email_protocol" class="form-control select2" style="width: 100%;">
+                  <option>Normal</option>
+                  <option>SMTP</option>
+                </select>
+                <small *ngIf="settingsForm.controls['email_protocol'].invalid && (settingsForm.controls['email_protocol'].dirty || settingsForm.controls['email_protocol'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['email_protocol']"></app-show-errors>
+                </small>
+              </div>
+              <div class="form-group">
+                <label>SMTP Host</label>
+                <input type="text" name="smtp_host" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="smtp_host" class="form-control" id="exampleInputEmail1" placeholder="SMTP Host">
+                <small *ngIf="settingsForm.controls['smtp_host'].invalid && (settingsForm.controls['smtp_host'].dirty || settingsForm.controls['smtp_host'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['smtp_host']"></app-show-errors>
+                </small>
+              </div>
+              <div class="form-group">
+                <label>SMTP Username</label>
+                <input type="text" name="smtp_user" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="smtp_user" class="form-control" id="exampleInputEmail1" placeholder="SMTP Username">
+                <small *ngIf="settingsForm.controls['smtp_user'].invalid && (settingsForm.controls['smtp_user'].dirty || settingsForm.controls['smtp_user'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['smtp_user']"></app-show-errors>
+                </small>
+              </div>
+              <div class="form-group">
+                <label>SMTP Passwrod</label>
+                <input type="text" name="smtp_password" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="smtp_password" class="form-control" id="exampleInputEmail1" placeholder="SMTP Passwrod">
+                <small *ngIf="settingsForm.controls['smtp_password'].invalid && (settingsForm.controls['smtp_password'].dirty || settingsForm.controls['smtp_password'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['smtp_password']"></app-show-errors>
+                </small>
+              </div>
+              <div class="form-group">
+                <label>SMTP post</label>
+                <input type="text" name="smtp_port" (blur)="valueUdateEvent($event.target.name, $event.target.value)"
+                  formControlName="smtp_port" class="form-control" id="exampleInputEmail1" placeholder="SMTP post">
+                <small *ngIf="settingsForm.controls['smtp_port'].invalid && (settingsForm.controls['smtp_port'].dirty || settingsForm.controls['smtp_port'].touched)"
+                  class="form-text text-muted">
+                  <app-show-errors [control]="settingsForm.controls['smtp_port']"></app-show-errors>
+                </small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </form>
+</section>
